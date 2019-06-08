@@ -30,8 +30,6 @@ public class LogInActivity extends AppCompatActivity {
                 goRegister();
             }
         });
-
-        
     }
 
     private void goMain(){
