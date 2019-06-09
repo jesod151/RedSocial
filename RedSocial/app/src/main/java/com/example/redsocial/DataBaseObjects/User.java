@@ -8,7 +8,7 @@ public class User {
                     apellido,
                     correo,
                     imagenUrl;
-    private ArrayList<String> amigos, fotos;
+    private ArrayList<String> amigos, fotos, datos;
 
     public User() {
     }
@@ -18,8 +18,9 @@ public class User {
         this.apellido = apellido;
         this.correo = correo;
         this.imagenUrl = imagenUrl;
-        this.amigos = new ArrayList();
+        this.amigos = new ArrayList<>();
         this.fotos = new ArrayList<>();
+        this.datos = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -70,11 +71,23 @@ public class User {
         this.fotos = fotos;
     }
 
+    public ArrayList<String> getDatos() {
+        return datos;
+    }
+
+    public void setDatos(ArrayList<String> datos) {
+        this.datos = datos;
+    }
+
     public void addFoto(String url){
         fotos.add(url);
     }
 
     public void addAmigo(String amigo){
         amigos.add(amigo);
+    }
+
+    public void addDato(String dato){
+        datos.add(dato);
     }
 }
