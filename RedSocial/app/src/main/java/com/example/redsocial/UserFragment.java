@@ -34,6 +34,7 @@ public class UserFragment extends Fragment {
 
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
+    UserPreferences prefs;
 
 
     @Nullable
@@ -41,22 +42,26 @@ public class UserFragment extends Fragment {
     public View onCreateView(LayoutInflater layoutInflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState){
         rootView = layoutInflater.inflate(R.layout.user_layout, container, false);
         usrPhoto = rootView.findViewById(R.id.userPhoto);
-        UserPreferences prefs = new UserPreferences(rootView.getContext());
-        final String[] photoUrl = {prefs.getPhoto()};
-        if(photoUrl[0].contains("profilePhotos")){
+        prefs = new UserPreferences(rootView.getContext());
+        String photoUrl = prefs.getPhoto();
+        if(photoUrl.contains("profilePhotos")){
             FirebaseStorage storage = FirebaseStorage.getInstance();
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://gs://redsocial-dam.appspot.com").child(photoUrl[0]);
+            //Log.e("Tuts+", "uri: " + photoUrl[0]);
+            StorageReference storageRef = storage.getReferenceFromUrl("gs://redsocial-dam.appspot.com").child(photoUrl);
             storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                 @Override
                 public void onSuccess(Uri photoUri) {
                     Log.e("Tuts+", "uri: " + photoUri.toString());
-                    photoUrl[0] = photoUri.toString();
+                    //photoUrl[0] = photoUri.toString();
+                    Picasso.get().load(photoUri.toString()).fit().into(usrPhoto);
                     //Handle whatever you're going to do with the URL here
                 }
             });
-        }
+        } else {Picasso.get().load(photoUrl).fit().into(usrPhoto);}
 
-        Picasso.get().load(photoUrl[0]).fit().into(usrPhoto);
+
+
+
         TextView userNameTv = rootView.findViewById(R.id.txtName);
         userNameTv.setText(prefs.getNombre());
         TextView infoTv = rootView.findViewById(R.id.txtInfo);
@@ -91,7 +96,7 @@ public class UserFragment extends Fragment {
     }
 
     private void closeApp() {
-
+        prefs.clear();
         getActivity().finish();
     }
 
