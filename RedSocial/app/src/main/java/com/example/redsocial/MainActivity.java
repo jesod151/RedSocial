@@ -6,13 +6,20 @@ import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.redsocial.ui.main.SectionsPagerAdapter;
+import com.example.redsocial.utils.UserPreferences;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
+
+    ImageView usrPhoto;
 
     private int[] tabIcons = {
             R.drawable.ic_public_black_24dp,
@@ -34,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
         tabs.setupWithViewPager(viewPager);
         FloatingActionButton fab = findViewById(R.id.fab);
         setupTabIcons();
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
