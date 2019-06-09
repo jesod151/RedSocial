@@ -4,18 +4,27 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.BundleCompat;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.redsocial.DataBaseObjects.Post;
 import com.example.redsocial.R;
+import com.example.redsocial.utils.RecyclerViewAdapterPost;
+
+import java.util.ArrayList;
+import java.util.Date;
 
 public class FeedFragment extends Fragment {
 
     View current;
     TextView txtPublicacion;
+    ArrayList<Post> posts = new ArrayList<>();
+    RecyclerView recyclerView;
 
     @Nullable
     @Override
@@ -30,6 +39,19 @@ public class FeedFragment extends Fragment {
             }
         });
 
+        posts.add(new Post("usuarioID1", "texto1", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID2", "texto2", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID3", "texto3", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID4", "texto4", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID5", "texto5", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID6", "texto6", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID7", "texto7", "", 0, 0, new Date()));
+        posts.add(new Post("usuarioID8", "texto8", "", 0, 0, new Date()));
+
+        recyclerView = current.findViewById(R.id.feedRecycler);
+        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(current.getContext(), posts);
+        recyclerView.setAdapter(recyclerViewAdapterPost);
+        recyclerView.setLayoutManager(new LinearLayoutManager(current.getContext()));
 
         return current;
     }
