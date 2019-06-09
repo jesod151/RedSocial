@@ -77,8 +77,6 @@ public class LogInActivity extends AppCompatActivity {
             FirebaseUser user = mAuth.getCurrentUser();
             updateUI(user);
         }
-
-        
     }
 
     @Override
