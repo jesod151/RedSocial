@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "801464367489-t7q39p7013ts3sf705r7lmfc8ddm89sf.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.redsocial",
+            "certificate_hash": "00392a8c3c78b4d5e6a5204f822b9f0fb0e9171e"
+          }
+        },
+        {
           "client_id": "801464367489-c6kjljlp5ca8tfv7qanbh88u87iupuoc.apps.googleusercontent.com",
           "client_type": 3
         }
