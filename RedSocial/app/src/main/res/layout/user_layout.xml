@@ -1,59 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/txtName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="8dp"
-        android:text="Nombre Usuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <RelativeLayout
+            android:id="@+id/userProfilCard"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:background="@color/colorPrimaryDark">
 
-    <TextView
-        android:id="@+id/txtInfo"
-        android:layout_width="283dp"
-        android:layout_height="141dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="28dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
-        android:text="Informacion de usuario"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userPhoto" />
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="25dp"
+                android:layout_height="33dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="63dp"
+                android:layout_marginEnd="31dp"
+                android:background="@android:color/transparent"
+                android:foreground="@drawable/ic_close_sesion" />
 
-    <ImageView
-        android:id="@+id/userPhoto"
-        android:layout_width="124dp"
-        android:layout_height="125dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtName"
-        app:srcCompat="@drawable/ic_person_pin_black_24dp" />
+        </RelativeLayout>
 
-    <Button
-        android:id="@+id/btnLogout"
-        style="@style/Widget.AppCompat.Button"
-        android:layout_width="25dp"
-        android:layout_height="33dp"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="24dp"
-        android:background="@android:color/transparent"
-        android:foreground="@drawable/logouticon"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</android.support.constraint.ConstraintLayout>
+        <LinearLayout
+            android:id="@+id/llUserInfo"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_marginTop="100dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/userPhoto"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:background="@color/colorPrimary"
+                android:padding="5dp"
+                app:srcCompat="@drawable/ic_add_image" />
+
+            <Button
+                android:id="@+id/btnGallery"
+                android:layout_width="25dp"
+                android:layout_height="33dp"
+                android:layout_alignBottom="@+id/llUserInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="1dp"
+                android:background="@android:color/transparent"
+                android:foreground="@drawable/ic_gallery" />
+
+            <Button
+                android:id="@+id/btnInfo"
+                android:layout_width="25dp"
+                android:layout_height="33dp"
+                android:layout_alignBottom="@+id/llUserInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="0dp"
+                android:background="@android:color/transparent"
+                android:foreground="@drawable/ic_info" />
+
+            <Button
+                android:id="@+id/btnFriends"
+                android:layout_width="25dp"
+                android:layout_height="33dp"
+                android:layout_alignBottom="@+id/llUserInfo"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginTop="80dp"
+                android:layout_marginEnd="40dp"
+                android:background="@android:color/transparent"
+                android:foreground="@drawable/ic_person" />
+
+            <TextView
+                android:id="@+id/txtName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:text="Nombre Usuario"
+                android:textColor="@android:color/background_light"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/llUserInfo"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/TextViewAbout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="8dp"
+                android:text="@string/str_mas_informacion"
+                android:textAlignment="center"
+                android:textColor="@color/colorPrimaryDark"
+                android:textSize="18sp" />
+
+
+            <ListView
+                android:id="@+id/UserInfo"
+                android:layout_width="match_parent"
+                android:layout_height="88dp" />
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+
+</ScrollView>

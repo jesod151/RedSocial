@@ -27,8 +27,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 import com.example.redsocial.utils.UserPreferences;
 
@@ -118,22 +122,26 @@ public class LogInActivity extends AppCompatActivity {
                         progressBar.setVisibility(View.INVISIBLE);
 
                         Log.d("TAG", "signInWithCredential:success");
-
                         FirebaseUser user = mAuth.getCurrentUser();
-                        String uid = user.getUid();
 
-                        //Registro en BD
-                        HashMap<Object, String> hashMap = new HashMap<>();
-                        //Agregamos los datos del usuario nuevo
-                        hashMap.put("email", user.getEmail());
-                        hashMap.put("uid", uid);
-                        hashMap.put("name", user.getDisplayName());
-                        hashMap.put("photo", String.valueOf(user.getPhotoUrl()));
-                        //Iniciamos la BD
-                        FirebaseDatabase database = FirebaseDatabase.getInstance();
-                        //Path para guardar los usuarios
-                        DatabaseReference reference = database.getReference("Users");
-                        reference.child(uid).setValue(hashMap);
+                        if(task.getResult().getAdditionalUserInfo().isNewUser() ){
+                            //Registro en BD
+                            String uid = user.getUid();
+                            HashMap<Object, String> hashMap = new HashMap<>();
+                            //Agregamos los datos del usuario nuevo
+                            hashMap.put("email", user.getEmail());
+                            hashMap.put("uid", uid);
+                            hashMap.put("name", user.getDisplayName());
+                            hashMap.put("photo", String.valueOf(user.getPhotoUrl()));
+                            //Iniciamos la BD
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            //Path para guardar los usuarios
+                            DatabaseReference reference = database.getReference("Users");
+                            reference.child(uid).setValue(hashMap);
+                        }
+
+
+
                         updateUI(user);
                     } else {
                         progressBar.setVisibility(View.INVISIBLE);
@@ -226,6 +234,29 @@ public class LogInActivity extends AppCompatActivity {
                                 updateUI(user);
                                 Toast.makeText(getApplicationContext(), "Exito al intentar ingresar.",
                                         Toast.LENGTH_SHORT).show();
+
+
+                                FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
+                                DatabaseReference reference = firebaseDatabase.getReference("Users");
+                                Query query = reference.orderByChild("email").equalTo(user.getEmail());
+                                query.addValueEventListener(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                        for (DataSnapshot ds : dataSnapshot.getChildren() ){
+                                            String id = "" + ds.child("uid").getValue();
+                                            String email = "" + ds.child("email").getValue();
+                                            String name = "" + ds.child("name").getValue();
+                                            String photo = "" + ds.child("photo").getValue();
+                                            prefs.saveUser(id, name, email, photo);
+                                            prefs.saveLastLogin();
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                    }
+                                });
                                 goMain();
                             } else {
                                 // If sign in fails, display a message to the user.

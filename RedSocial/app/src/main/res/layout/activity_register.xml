@@ -75,15 +75,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="68dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginRight="8dp"
         android:text="Registrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtRegisterContrasenna" />
+        app:layout_constraintTop_toBottomOf="@+id/btnFoto" />
 
     <ProgressBar
         android:id="@+id/progressBarRegister"
@@ -93,7 +91,35 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="80dp"
         android:layout_marginEnd="8dp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnRegistrarse" />
+
+    <ImageView
+        android:id="@+id/btnFoto"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/round_bg"
+        android:scaleType="centerCrop"
+        android:src="@android:drawable/ic_menu_gallery"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="8dp"
+        android:text="Selecciona una foto de perfil"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtRegisterContrasenna" />
 </android.support.constraint.ConstraintLayout>

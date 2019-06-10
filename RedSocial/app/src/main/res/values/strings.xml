@@ -5,4 +5,5 @@
     <string name="tab_text_3">Notifications</string>
     <string name="tab_text_4">User</string>
     <string name="login_google">Iniciar sesion con Google</string>
+    <string name="str_mas_informacion">Sobre </string>
 </resources>
