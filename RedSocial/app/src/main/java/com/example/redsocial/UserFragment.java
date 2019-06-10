@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.redsocial.utils.UserPreferences;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -68,7 +69,9 @@ public class UserFragment extends Fragment {
                     //Handle whatever you're going to do with the URL here
                 }
             });
-        } else {Picasso.get().load(photoUrl).fit().into(usrPhoto);}
+        } else {
+            Picasso.get().load(photoUrl).fit().into(usrPhoto);
+        }
 
 
 

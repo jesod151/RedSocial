@@ -4,14 +4,15 @@ import java.util.Date;
 
 public class Post {
 
-    private String userID, texto, imagenUrl;
+    private String postID, userID, texto, imagenUrl, imageUrlUser;
     private int likes, dislikes;
     private Date fechaCreacion;
 
     public Post() {
     }
 
-    public Post(String userID, String texto, String imagenUrl, int likes, int dislikes, Date fechaCreacion) {
+    public Post(String postID, String userID, String texto, String imagenUrl, int likes, int dislikes, Date fechaCreacion) {
+        this.postID = postID;
         this.userID = userID;
         this.texto = texto;
         this.imagenUrl = imagenUrl;
@@ -20,13 +21,22 @@ public class Post {
         this.fechaCreacion = fechaCreacion;
     }
 
-    public Post(String userID, String texto, int likes, int dislikes, Date fechaCreacion) {
+    public Post(String postID, String userID, String texto, int likes, int dislikes, Date fechaCreacion) {
+        this.postID = postID;
         this.userID = userID;
         this.texto = texto;
         this.likes = likes;
         this.imagenUrl = "";
         this.dislikes = dislikes;
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getPostID() {
+        return postID;
+    }
+
+    public void setPostID(String postID) {
+        this.postID = postID;
     }
 
     public String getImagenUrl() {
@@ -83,5 +93,13 @@ public class Post {
 
     public void dislike(){
         dislikes++;
+    }
+
+    public String getImageUrlUser() {
+        return imageUrlUser;
+    }
+
+    public void setImageUrlUser(String imageUrlUser) {
+        this.imageUrlUser = imageUrlUser;
     }
 }

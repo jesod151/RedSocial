@@ -50,7 +50,7 @@ public class FriendListFragment extends Fragment {
         posts.add(new Post("usuarioID8", "texto8", "", 0, 0, new Date()));
 
         recyclerView = current.findViewById(R.id.feedRecycler);
-        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(current.getContext(), posts);
+        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(current.getContext(), posts, null);
         recyclerView.setAdapter(recyclerViewAdapterPost);
         recyclerView.setLayoutManager(new LinearLayoutManager(current.getContext()));
 

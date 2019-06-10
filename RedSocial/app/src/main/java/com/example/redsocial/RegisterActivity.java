@@ -195,6 +195,13 @@ public class RegisterActivity extends AppCompatActivity {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference userDocument = db.collection("Users").document();
                             userDocument.set(hashMap);
+
+                            userDocument = db.collection("Friends").document();
+                            hashMap = new HashMap<>();
+                            hashMap.put("friend", user.getEmail());
+                            hashMap.put("user", user.getEmail());
+                            userDocument.set(hashMap);
+
                             pb.setVisibility(View.INVISIBLE);
                             goMain();
                             finish();

@@ -116,6 +116,9 @@ public class FeedFragment extends Fragment {
 
             Glide.with(this).load(mImageUri).into(imgPost);
         }
+        else if(requestCode == 2){
+            setUserInstance();
+        }
     }
 
     private String getFileExtension(Uri uri) {
@@ -129,7 +132,8 @@ public class FeedFragment extends Fragment {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         DocumentReference postDocument = db.collection("Posts").document();
 
-        Post toUpload = new Post(prefs.getEmail(),
+        Post toUpload = new Post(postDocument.getId(),
+                                 prefs.getEmail(),
                                  this.txtPublicacion.getText().toString(),
                                  0, 0,
                                  new Date());
@@ -150,6 +154,7 @@ public class FeedFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Toast.makeText(current.getContext(), "Se realizó la publiación", Toast.LENGTH_SHORT).show();
+                                            getPosts();
                                         }
                                     });
                                 }
@@ -211,8 +216,9 @@ public class FeedFragment extends Fragment {
         });
     }
 
-    private void getPosts(){
+    public void getPosts(){
 
+        posts = new ArrayList<>();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         CollectionReference collectionReference = db.collection("Posts");
 
@@ -234,13 +240,12 @@ public class FeedFragment extends Fragment {
     }
 
     private void setPosts(){
-
         recyclerView = current.findViewById(R.id.feedRecycler);
-        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(current.getContext(), posts);
+        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(current.getContext(), posts, this);
         recyclerView.setAdapter(recyclerViewAdapterPost);
         recyclerView.setLayoutManager(new LinearLayoutManager(current.getContext()));
-
     }
+
 
 
 }
