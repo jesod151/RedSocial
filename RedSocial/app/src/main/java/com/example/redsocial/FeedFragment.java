@@ -224,7 +224,7 @@ public class FeedFragment extends Fragment {
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
                     if(task.isSuccessful()) {
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            posts.add(document.toObject(Post.class));
+                            posts.add(0, document.toObject(Post.class));
                         }
                         setPosts();
                     }
