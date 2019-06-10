@@ -11,7 +11,7 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="160dp"
         app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
@@ -22,7 +22,7 @@
         android:id="@+id/imgLikeDetail"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="160dp"
         app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetail"
         app:layout_constraintStart_toEndOf="@+id/txtLikesDetail"
         app:srcCompat="@drawable/ic_sentiment_satisfied_black_24dp" />
@@ -32,7 +32,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="68dp"
-        android:layout_marginBottom="212dp"
+        android:layout_marginBottom="172dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetail"
         app:layout_constraintStart_toStartOf="parent" />
@@ -43,7 +43,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="204dp"
+        android:layout_marginBottom="164dp"
         android:visibility="visible"
         app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetail"
         app:layout_constraintEnd_toEndOf="parent"
@@ -57,10 +57,11 @@
         android:layout_height="71dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="12dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/imgLikeDetail"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.504"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -69,7 +70,7 @@
         android:layout_height="320dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        android:layout_marginBottom="12dp"
+        android:layout_marginBottom="8dp"
         app:layout_constraintBottom_toTopOf="@+id/txtPostDetail"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,7 +80,7 @@
         android:id="@+id/txtDislikeDetail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="212dp"
+        android:layout_marginBottom="172dp"
         android:text="TextView"
         app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetail"
         app:layout_constraintStart_toEndOf="@+id/imgLikeDetail" />
