@@ -1,5 +1,10 @@
 package com.example.redsocial.DataBaseObjects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import com.google.firebase.database.IgnoreExtraProperties;
+
 import java.util.ArrayList;
 
 public class User {
@@ -8,7 +13,7 @@ public class User {
                     apellido,
                     correo,
                     imagenUrl;
-    private ArrayList<String> amigos, fotos, datos;
+    private ArrayList<String> amigos = new ArrayList<>(), fotos = new ArrayList<>(), datos = new ArrayList<>();
 
     public User() {
     }
@@ -18,9 +23,6 @@ public class User {
         this.apellido = apellido;
         this.correo = correo;
         this.imagenUrl = imagenUrl;
-        this.amigos = new ArrayList<>();
-        this.fotos = new ArrayList<>();
-        this.datos = new ArrayList<>();
     }
 
     public String getNombre() {
@@ -89,5 +91,15 @@ public class User {
 
     public void addDato(String dato){
         datos.add(dato);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "nombre='" + nombre + '\'' +
+                ", apellido='" + apellido + '\'' +
+                ", correo='" + correo + '\'' +
+                ", imagenUrl='" + imagenUrl + '\'' +
+                '}';
     }
 }

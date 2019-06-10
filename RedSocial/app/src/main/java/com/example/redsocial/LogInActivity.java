@@ -99,7 +99,9 @@ public class LogInActivity extends AppCompatActivity {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
                 GoogleSignInAccount account = task.getResult(ApiException.class);
-                if (account != null) firebaseAuthWithGoogle(account);
+                if (account != null){
+                    firebaseAuthWithGoogle(account);
+                }
             } catch (ApiException e) {
                 Log.w("TAG", "Google sign in failed", e);
             }
@@ -221,8 +223,10 @@ public class LogInActivity extends AppCompatActivity {
                                 // Sign in success, update UI with the signed-in user's information
                                 Log.d("SignIn", "signInWithEmail:success");
                                 FirebaseUser user = mAuth.getCurrentUser();
+                                updateUI(user);
                                 Toast.makeText(getApplicationContext(), "Exito al intentar ingresar.",
                                         Toast.LENGTH_SHORT).show();
+                                goMain();
                             } else {
                                 // If sign in fails, display a message to the user.
                                 Log.w("SignIn", "signInWithEmail:failure", task.getException());

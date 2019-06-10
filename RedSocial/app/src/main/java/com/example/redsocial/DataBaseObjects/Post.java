@@ -20,6 +20,15 @@ public class Post {
         this.fechaCreacion = fechaCreacion;
     }
 
+    public Post(String userID, String texto, int likes, int dislikes, Date fechaCreacion) {
+        this.userID = userID;
+        this.texto = texto;
+        this.likes = likes;
+        this.imagenUrl = "";
+        this.dislikes = dislikes;
+        this.fechaCreacion = fechaCreacion;
+    }
+
     public String getImagenUrl() {
         return imagenUrl;
     }
