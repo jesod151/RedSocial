@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class Post {
 
-    private String postID, userID, texto, imagenUrl, imageUrlUser;
+    private String postID, userID, userName, texto, imagenUrl, imageUrlUser;
     private int likes, dislikes;
     private Date fechaCreacion;
 
@@ -101,5 +101,13 @@ public class Post {
 
     public void setImageUrlUser(String imageUrlUser) {
         this.imageUrlUser = imageUrlUser;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

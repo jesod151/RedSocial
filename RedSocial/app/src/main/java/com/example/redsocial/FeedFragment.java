@@ -74,7 +74,6 @@ public class FeedFragment extends Fragment {
         current = layoutInflater.inflate(R.layout.feed_layout, container, false);
         prefs = new UserPreferences(current.getContext());
 
-
         imgPost = current.findViewById(R.id.imgAdd);
         btnPost = current.findViewById(R.id.btnPublicar);
         txtPublicacion = current.findViewById(R.id.txtPublicacion);
@@ -91,6 +90,7 @@ public class FeedFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 uploadPost();
+                setUserInstance();
             }
         });
 
@@ -137,6 +137,8 @@ public class FeedFragment extends Fragment {
                                  this.txtPublicacion.getText().toString(),
                                  0, 0,
                                  new Date());
+
+        toUpload.setUserName(prefs.getNombre());
 
         if (mImageUri != null) {
             StorageTask mUploadTask;
