@@ -3,6 +3,7 @@ package com.example.redsocial;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -64,9 +65,10 @@ public class Post_detail_layout extends AppCompatActivity {
                            bundle.getInt("likes"),
                            bundle.getInt("dislikes"),
                            new Date());
+        current.setUserName(bundle.getString("userName"));
 
         Glide.with(this).load(bundle.getString("imgUser")).into(imgUser);
-        texto.setText(current.getUserID() + "\n" + bundle.getString("fecha") + "\n" + current.getTexto());
+        texto.setText(current.getUserName() + "\n" + bundle.getString("fecha") + "\n" + current.getTexto());
         likes.setText(Integer.toString(current.getLikes()));
         dislikes.setText(Integer.toString(current.getDislikes()));
         if(!current.getImagenUrl().equals("")){

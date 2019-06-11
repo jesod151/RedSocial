@@ -66,7 +66,7 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
 
         viewHolder.likes.setText(Integer.toString(posts.get(i).getLikes()));
         viewHolder.dislikes.setText(Integer.toString(posts.get(i).getDislikes()));
-        viewHolder.texto.setText(posts.get(i).getUserID() + "\n" + getDistanciaFecha(posts.get(i).getFechaCreacion()) + "\n" + posts.get(i).getTexto());
+        viewHolder.texto.setText(posts.get(i).getUserName() + "\n" + getDistanciaFecha(posts.get(i).getFechaCreacion()) + "\n" + posts.get(i).getTexto());
         if(!posts.get(i).getImagenUrl().equals("")){
             Glide.with(context).load(posts.get(i).getImagenUrl()).into(viewHolder.imagen);
         }
@@ -124,6 +124,7 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
     private void goPostDetail(Post post){
         Intent intent = new Intent(context, Post_detail_layout.class);
         intent.putExtra("userID", post.getUserID());
+        intent.putExtra("userName", post.getUserName());
         intent.putExtra("texto", post.getTexto());
         intent.putExtra("likes", post.getLikes());
         intent.putExtra("imagen", post.getImagenUrl());
@@ -148,9 +149,6 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
         long diff = actual.getTime() - date.getTime();
         int diffMinutes = (int) Math.floor(diff / (60 * 1000) % 60);
         int diffHours = (int) Math.floor(diff / (60 * 60 * 1000));
-
-        Log.d("fecja", Integer.toString(diffHours));
-        Log.d("fecja", Integer.toString(diffMinutes));
 
         if(diffHours >= 24){
             return "hace " + Double.toString((int) Math.floor(diffHours / 24)) + " dias";

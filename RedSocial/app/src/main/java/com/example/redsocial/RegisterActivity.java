@@ -1,6 +1,7 @@
 package com.example.redsocial;
 
 import android.app.ProgressDialog;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -10,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.MimeTypeMap;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -19,6 +21,7 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,6 +32,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.StorageTask;
+import com.google.firebase.storage.UploadTask;
 
 
 import java.io.IOException;
@@ -164,7 +169,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void registrarUsuario(String nombre, String email, String password, Uri photo) {
-        String photoPath = uploadImage(photo);
+
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -176,31 +181,43 @@ public class RegisterActivity extends AppCompatActivity {
 
                             String uid = user.getUid();
                             //Registro en BD
-                            HashMap<Object, String> hashMap = new HashMap<>();
+                            final HashMap<Object, String> hashMap = new HashMap<>();
                             //Agregamos los datos del usuario nuevo
                             hashMap.put("email", user.getEmail());
                             hashMap.put("uid", uid);
                             hashMap.put("name", nombre);
-                            hashMap.put("photo", photoPath);
 
+                            FirebaseDatabase database = FirebaseDatabase.getInstance();
+                            DatabaseReference reference = database.getReference("Users");
+                            reference.child(uid).setValue(hashMap);
 
-                            //Iniciamos la BD
-                            //FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            //Path para guardar los usuarios
-                            //DatabaseReference reference = database.getReference("Users");
-                            //reference.child(uid).setValue(hashMap);
+                            StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePhotos");
+                            StorageTask mUploadTask;
+                            final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(photo));
+                            mUploadTask = fileReference.putFile(photo)
+                                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
 
+                                            fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    hashMap.put("photo", uri.toString());
+                                                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                    DocumentReference userDocument = db.collection("Users").document();
+                                                    userDocument.set(hashMap);
+                                                }
+                                            });
+                                        }
+                                    });
 
                             pb.setVisibility(View.INVISIBLE);
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference userDocument = db.collection("Users").document();
-                            userDocument.set(hashMap);
-
-                            userDocument = db.collection("Friends").document();
-                            hashMap = new HashMap<>();
-                            hashMap.put("friend", user.getEmail());
-                            hashMap.put("user", user.getEmail());
-                            userDocument.set(hashMap);
+                            DocumentReference userDocument = db.collection("Friends").document();
+                            HashMap<String, String> hashMap1 = new HashMap<>();
+                            hashMap1.put("friend", user.getEmail());
+                            hashMap1.put("user", user.getEmail());
+                            userDocument.set(hashMap1);
 
                             pb.setVisibility(View.INVISIBLE);
                             goMain();
@@ -222,6 +239,12 @@ public class RegisterActivity extends AppCompatActivity {
                         Toast.LENGTH_SHORT).show();
             }
         });
+    }
+
+    private String getFileExtension(Uri uri) {
+        ContentResolver cR = getContentResolver();
+        MimeTypeMap mime = MimeTypeMap.getSingleton();
+        return mime.getExtensionFromMimeType(cR.getType(uri));
     }
 
     private void goMain(){
