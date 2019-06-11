@@ -16,16 +16,20 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".Post_detail_layout"/>
-        <activity android:name=".ManageInfoActivity"/>
-        <activity android:name=".RegisterActivity" />
-        <activity android:name=".MainActivity" />
+        <activity android:name=".Post_detail_layout"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".ManageInfoActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".RegisterActivity"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity android:name=".MainActivity"
+            android:windowSoftInputMode="stateHidden"/>
         <activity
             android:name=".LogInActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

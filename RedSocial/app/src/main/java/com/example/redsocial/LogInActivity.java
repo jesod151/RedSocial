@@ -1,16 +1,20 @@
 package com.example.redsocial;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +25,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
@@ -110,6 +115,55 @@ public class LogInActivity extends AppCompatActivity {
                 Log.w("TAG", "Google sign in failed", e);
             }
         }
+    }
+
+    public void recoverPassword(View v){
+        showRecoverDialog();
+    }
+
+    private void showRecoverDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Recuperar contraseña");
+        LinearLayout linearLayout = new LinearLayout(this);
+        EditText emailET = new EditText(this);
+        emailET.setHint("Correo");
+        emailET.setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+        linearLayout.addView(emailET);
+        linearLayout.setPadding(10, 10, 10, 10);
+        builder.setView(linearLayout);
+        builder.setPositiveButton("Recuperar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String email = emailET.getText().toString().trim();
+                beginRecovery(email);
+            }
+        });
+        builder.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+
+            }
+        });
+        builder.create().show();
+    }
+
+    private void beginRecovery(String email) {
+        mAuth.sendPasswordResetEmail(email).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(context, e.getMessage() + "Se te ha enviado un correo de confirmación, revisa la bandeja.", Toast.LENGTH_LONG).show();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if (task.isSuccessful()){
+                    Toast.makeText(context, "Se te ha enviado un correo de confirmación, revisa la bandeja.", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(context, "Ha ocurrido un error.", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
