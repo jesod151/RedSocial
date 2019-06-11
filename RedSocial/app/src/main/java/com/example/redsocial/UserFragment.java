@@ -146,6 +146,8 @@ public class UserFragment extends Fragment {
     private void FillPersonalData(){
         final ListView lv = rootView.findViewById(R.id.UserInfo);
 
+        // Aca debe llenarse la lista con lo obtenido desde la BD
+
         List<String> your_array_list = new ArrayList();
         your_array_list.add("De: San Jose");
         your_array_list.add("Trabaja en: La Calle");
