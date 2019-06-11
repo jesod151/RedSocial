@@ -25,15 +25,12 @@
         android:id="@+id/txtPost"
         android:layout_width="200dp"
         android:layout_height="71dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="72dp"
-        android:text="TextView"
         android:autoLink="all"
         android:clickable="true"
+        android:text="TextView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -41,18 +38,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtPost" />
+        app:layout_constraintTop_toBottomOf="@+id/imgPost" />
 
     <ImageView
         android:id="@+id/imgLike"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintStart_toEndOf="@+id/txtLikes"
-        app:layout_constraintTop_toBottomOf="@+id/txtPost"
+        app:layout_constraintTop_toBottomOf="@+id/imgPost"
         app:srcCompat="@drawable/ic_sentiment_satisfied_black_24dp" />
 
     <TextView
@@ -60,21 +57,21 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="4dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="8dp"
         android:text="TextView"
         app:layout_constraintStart_toEndOf="@+id/imgLike"
-        app:layout_constraintTop_toBottomOf="@+id/txtPost" />
+        app:layout_constraintTop_toBottomOf="@+id/imgPost" />
 
     <ImageView
         android:id="@+id/imgDislike"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/txtDislikes"
-        app:layout_constraintTop_toBottomOf="@+id/txtPost"
+        app:layout_constraintTop_toBottomOf="@+id/imgPost"
         app:srcCompat="@drawable/ic_sentiment_dissatisfied_black_24dp" />
 
     <ImageView
@@ -82,12 +79,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="228dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:clickable="false"
         android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.048"
+        app:layout_constraintHorizontal_bias="0.601"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgPost"
         app:srcCompat="@drawable/ic_delete_black_24dp" />
@@ -96,12 +93,12 @@
         android:id="@+id/imgPostUserImage"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginStart="64dp"
+        android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toStartOf="@+id/txtPost"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.121"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@drawable/ic_person" />
 </android.support.constraint.ConstraintLayout>

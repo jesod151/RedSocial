@@ -74,6 +74,9 @@ public class Post_detail_layout extends AppCompatActivity {
         if(!current.getImagenUrl().equals("")){
             Glide.with(this).load(current.getImagenUrl()).into(imagen);
         }
+        else{
+            imagen.setVisibility(View.GONE);
+        }
         setComments();
 
 
@@ -150,6 +153,7 @@ public class Post_detail_layout extends AppCompatActivity {
             hash.put("username", userPreferences.getNombre());
             hash.put("postID", current.getPostID());
             hash.put("texto", this.txtComentario.getText().toString());
+            hash.put("üserID", userPreferences.getEmail());
             postDocument.set(hash);
             setComments();
         }

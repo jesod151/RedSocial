@@ -5,8 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,10 +25,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.redsocial.DataBaseObjects.Post;
+import com.example.redsocial.utils.RecyclerViewAdapterPost;
 import com.example.redsocial.utils.UserPreferences;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.squareup.picasso.Picasso;
@@ -43,6 +56,8 @@ public class UserFragment extends Fragment {
     Button btnGallery;
     Button btnFriendList;
     Button btnInfo;
+    Button btnDeleteUser;
+    RecyclerView recyclerView;
 
     GoogleSignInClient mGoogleSignInClient;
     FirebaseAuth firebaseAuth;
@@ -56,25 +71,13 @@ public class UserFragment extends Fragment {
         usrPhoto = rootView.findViewById(R.id.userPhoto);
         prefs = new UserPreferences(rootView.getContext());
         String photoUrl = prefs.getPhoto();
-        if(photoUrl.contains("profilePhotos")){
-            FirebaseStorage storage = FirebaseStorage.getInstance();
-            //Log.e("Tuts+", "uri: " + photoUrl[0]);
-            StorageReference storageRef = storage.getReferenceFromUrl("gs://redsocial-dam.appspot.com").child(photoUrl);
-            storageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                @Override
-                public void onSuccess(Uri photoUri) {
-                    Log.e("Tuts+", "uri: " + photoUri.toString());
-                    //photoUrl[0] = photoUri.toString();
-                    Picasso.get().load(photoUri.toString()).fit().into(usrPhoto);
-                    //Handle whatever you're going to do with the URL here
-                }
-            });
-        } else {
-            Picasso.get().load(photoUrl).fit().into(usrPhoto);
+
+        if(!photoUrl.equals("")){
+            Glide.with(rootView.getContext()).load(photoUrl).into(usrPhoto);
         }
-
-
-
+        else{
+            usrPhoto.setVisibility(View.GONE);
+        }
 
         TextView userNameTv = rootView.findViewById(R.id.txtName);
         userNameTv.setText(prefs.getNombre());
@@ -111,7 +114,7 @@ public class UserFragment extends Fragment {
             }
         });
 
-        btnInfo= rootView.findViewById(R.id.btnInfo);
+        btnInfo = rootView.findViewById(R.id.btnInfo);
         btnInfo.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -119,7 +122,96 @@ public class UserFragment extends Fragment {
             }
         });
 
+        btnDeleteUser = rootView.findViewById(R.id.btnDeleteUser);
+        btnDeleteUser.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                CollectionReference collectionReference;
+                Query query;
+
+                collectionReference = db.collection("Comments");
+                query = collectionReference.whereEqualTo("userID", prefs.getEmail());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            ArrayList<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference comentarios = db.collection("Comments").document(document.getId());
+                                comentarios.delete();
+                            }
+                        }
+                    }
+                });
+
+                collectionReference = db.collection("Users");
+                query = collectionReference.whereEqualTo("email", prefs.getEmail());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            ArrayList<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference comentarios = db.collection("Users").document(document.getId());
+                                comentarios.delete();
+                            }
+                        }
+                    }
+                });
+
+                collectionReference = db.collection("Posts");
+                query = collectionReference.whereEqualTo("userID", prefs.getEmail());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            ArrayList<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference comentarios = db.collection("Posts").document(document.getId());
+                                comentarios.delete();
+                            }
+                        }
+                    }
+                });
+
+                collectionReference = db.collection("Friends");
+                query = collectionReference.whereEqualTo("user", prefs.getEmail());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            ArrayList<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference comentarios = db.collection("Friends").document(document.getId());
+                                comentarios.delete();
+                            }
+                        }
+                    }
+                });
+
+                collectionReference = db.collection("LikeDislike");
+                query = collectionReference.whereEqualTo("userID", prefs.getEmail());
+                query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            ArrayList<String> comments = new ArrayList<>();
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                DocumentReference comentarios = db.collection("LikeDislike").document(document.getId());
+                                comentarios.delete();
+                            }
+                        }
+                    }
+                });
+
+                Intent intent = new Intent(getActivity(), LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        searchForPosts();
         firebaseAuth = FirebaseAuth.getInstance();
         return  rootView;
 
@@ -181,8 +273,40 @@ public class UserFragment extends Fragment {
 
     }
 
+    public void searchForPosts(){
 
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Posts");
 
+        Query query = collectionReference.whereEqualTo("userID", prefs.getEmail());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
 
+                    ArrayList<Post> posts = new ArrayList<>();
 
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        posts.add(0, document.toObject(Post.class));
+                    }
+                    setPosts(posts);
+                }
+            }
+        });
+    }
+
+    private void setPosts(ArrayList<Post> posts){
+        recyclerView = rootView.findViewById(R.id.recyclerProfilePosts);
+        RecyclerViewAdapterPost recyclerViewAdapterPost = new RecyclerViewAdapterPost(rootView.getContext(), posts, this);
+        recyclerView.setAdapter(recyclerViewAdapterPost);
+        recyclerView.setLayoutManager(new LinearLayoutManager(rootView.getContext()));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 1){//posts
+            searchForPosts();
+        }
+    }
 }

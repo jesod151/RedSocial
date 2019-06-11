@@ -187,9 +187,7 @@ public class RegisterActivity extends AppCompatActivity {
                             hashMap.put("uid", uid);
                             hashMap.put("name", nombre);
 
-                            FirebaseDatabase database = FirebaseDatabase.getInstance();
-                            DatabaseReference reference = database.getReference("Users");
-                            reference.child(uid).setValue(hashMap);
+
 
                             StorageReference mStorageRef = FirebaseStorage.getInstance().getReference("profilePhotos");
                             StorageTask mUploadTask;
@@ -206,6 +204,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                                                     DocumentReference userDocument = db.collection("Users").document();
                                                     userDocument.set(hashMap);
+
+                                                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+                                                    DatabaseReference reference = database.getReference("Users");
+                                                    reference.child(uid).setValue(hashMap);
                                                 }
                                             });
                                         }

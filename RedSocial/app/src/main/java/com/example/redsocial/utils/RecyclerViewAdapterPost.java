@@ -19,6 +19,7 @@ import com.example.redsocial.FeedFragment;
 import com.example.redsocial.Post_detail_layout;
 import com.example.redsocial.R;
 import com.example.redsocial.SearchFragment;
+import com.example.redsocial.UserFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -27,30 +28,42 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAdapterPost.ViewHolder>{
 
     private Context context;
     private ArrayList<Post> posts;
-    private FeedFragment feedFragment;
-    private SearchFragment searchFragment;
+    private FeedFragment feedFragment = null;
+    private UserFragment userFragment = null;
+    private SearchFragment searchFragment = null;
     private UserPreferences userPreferences;
+
 
     public RecyclerViewAdapterPost(Context context, ArrayList<Post> posts, FeedFragment feedFragment) {
         this.context = context;
         this.userPreferences = new UserPreferences(context);
-        this.posts = posts;
+        this.posts = sortByDate(posts);
         this.feedFragment = feedFragment;
     }
 
     public RecyclerViewAdapterPost(Context context, ArrayList<Post> posts, SearchFragment searchFragment) {
         this.context = context;
         this.userPreferences = new UserPreferences(context);
-        this.posts = posts;
+        this.posts = sortByDate(posts);
         this.searchFragment = searchFragment;
+    }
+
+    public RecyclerViewAdapterPost(Context context, ArrayList<Post> posts, UserFragment userFragment) {
+        this.context = context;
+        this.userPreferences = new UserPreferences(context);
+        this.posts = sortByDate(posts);
+        this.userFragment = userFragment;
     }
 
     @NonNull
@@ -70,6 +83,9 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
         if(!posts.get(i).getImagenUrl().equals("")){
             Glide.with(context).load(posts.get(i).getImagenUrl()).into(viewHolder.imagen);
         }
+        else{
+            viewHolder.imagen.setVisibility(View.GONE);
+        }
         if(userPreferences.getEmail().equals(posts.get(i).getUserID())){
             viewHolder.btnDelete.setVisibility(View.VISIBLE);
             viewHolder.btnDelete.setClickable(true);
@@ -79,7 +95,9 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference documentReference = db.collection("Posts").document(posts.get(i).getPostID());
                     documentReference.delete();
-                    feedFragment.getPosts();
+                    if(feedFragment != null) {
+                        feedFragment.getPosts();
+                    }
                 }
             });
         }
@@ -139,6 +157,9 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
         else if(searchFragment != null){
             searchFragment.startActivityForResult(intent, 1);
         }
+        else{
+            userFragment.startActivityForResult(intent, 1);
+        }
 
 
     }
@@ -185,5 +206,22 @@ public class RecyclerViewAdapterPost extends RecyclerView.Adapter<RecyclerViewAd
                 }
             }
         });
+    }
+
+    public ArrayList<Post> sortByDate(ArrayList<Post> posts){
+        Collections.sort(posts, new Comparator<Post>() {
+            @Override
+            public int compare(Post o1, Post o2) {
+                Date actual = new Date();
+                long diff = o1.getFechaCreacion().getTime() - o2.getFechaCreacion().getTime();
+                if(diff > 0) {
+                    return -1;
+                }
+                else{
+                    return 1;
+                }
+            }
+        });
+        return posts;
     }
 }
