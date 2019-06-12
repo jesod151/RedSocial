@@ -42,12 +42,15 @@ public class RecyclerViewAdapterUsers extends RecyclerView.Adapter<RecyclerViewA
     private FeedFragment feedFragment;
     private SearchFragment searchFragment;
     private UserPreferences userPreferences;
+    private ArrayList<String> amigos;
 
     public RecyclerViewAdapterUsers(Context context, ArrayList<User> users, SearchFragment searchFragment) {
         this.context = context;
         this.userPreferences = new UserPreferences(context);
         this.users = users;
         this.searchFragment = searchFragment;
+        amigos = new ArrayList<>();
+        getMisAmigos(userPreferences.getEmail());
     }
 
     @NonNull
@@ -65,39 +68,50 @@ public class RecyclerViewAdapterUsers extends RecyclerView.Adapter<RecyclerViewA
         if(!users.get(i).getImagenUrl().equals("")){
             Glide.with(context).load(users.get(i).getImagenUrl()).into(viewHolder.imagen);
         }
+
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(context, "Hola soy "+ users.get(i).getNombre(), Toast.LENGTH_LONG).show();
+                Toast.makeText(context, "Hola soy " + users.get(i).getNombre(), Toast.LENGTH_LONG).show();
             }
         });
-        viewHolder.btnAddFriend.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(context, "Invitacion de amistad enviada a "+ users.get(i).getNombre(), Toast.LENGTH_LONG).show();
+        if(searchFragment != null && !isAmigo(users.get(i).getCorreo())) {
+            viewHolder.btnAddFriend.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
-                //Instancio la bd
 
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                DocumentReference notifDocument = db.collection("Notifications").document();
+                    //Instancio la bd
 
-                //Creo la notificacion
-                Notificacion notif = new Notificacion(notifDocument.getId(), "SolicitudAmistad", userPreferences.getEmail(),
-                        users.get(i).getCorreo(),""+userPreferences.getNombre() + " quiere ser tu amigo.", new Date(),
-                        false, userPreferences.getPhoto());
-                notifDocument.set(notif).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        Toast.makeText(context, "Se realizó la publiación", Toast.LENGTH_SHORT).show();
-                        //getPosts();
-                    }
-                });
-                viewHolder.btnAddFriend.setEnabled(false);
-                viewHolder.btnAddFriend.setBackgroundResource(R.drawable.add_friend_yet);
-            }
+                    FirebaseFirestore db = FirebaseFirestore.getInstance();
+                    DocumentReference notifDocument = db.collection("Notifications").document();
 
-        });
+                    //Creo la notificacion
+                    Notificacion notif = new Notificacion(notifDocument.getId(), "SolicitudAmistad", userPreferences.getEmail(),
+                            users.get(i).getCorreo(), "" + userPreferences.getNombre() + " quiere ser tu amigo.", new Date(),
+                            false, userPreferences.getPhoto());
+                    notifDocument.set(notif).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            Toast.makeText(context, "Invitacion de amistad enviada a " + users.get(i).getNombre(), Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    viewHolder.btnAddFriend.setEnabled(false);
+                    viewHolder.btnAddFriend.setBackgroundResource(R.drawable.add_friend_yet);
+                }
 
+            });
+        }
+        else {
+            viewHolder.btnAddFriend.setVisibility(View.GONE);
+        }
+
+    }
+
+    private boolean isAmigo(String mail){
+        Log.d("taga", "mis amigos son> "+ amigos.toString());
+        Log.d("taga", "??? "+ mail);
+        return amigos.contains(mail);
     }
 
     @Override
@@ -122,6 +136,8 @@ public class RecyclerViewAdapterUsers extends RecyclerView.Adapter<RecyclerViewA
         }
     }
 
+
+
     public void setUserImageUrl(Post post, ImageView img){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -142,5 +158,26 @@ public class RecyclerViewAdapterUsers extends RecyclerView.Adapter<RecyclerViewA
             }
         });
     }
+    public void getMisAmigos(String email){
+        amigos = new ArrayList<>();
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Friends");
+        Query query = collectionReference.whereEqualTo("user", email);
+
+        query.get().addOnCompleteListener(task -> {
+            if(task.isSuccessful()) {
+
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    if(!document.getString("friend").equals(userPreferences.getEmail())){
+                        amigos.add(document.getString("friend"));
+                    }
+                }
+            }
+        });
+    }
+
+
 
 }
+
+

@@ -198,6 +198,13 @@ public class LogInActivity extends AppCompatActivity {
                             FirebaseFirestore db = FirebaseFirestore.getInstance();
                             DocumentReference userDocument = db.collection("Users").document();
                             userDocument.set(hashMap);
+
+
+                            DocumentReference userDocument2 = db.collection("Friends").document();
+                            HashMap<String, String> hashMap1 = new HashMap<>();
+                            hashMap1.put("friend", user.getEmail());
+                            hashMap1.put("user", user.getEmail());
+                            userDocument2.set(hashMap1);
                         }
 
 

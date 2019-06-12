@@ -156,6 +156,8 @@ public class FeedFragment extends Fragment {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                             Toast.makeText(current.getContext(), "Se realizó la publiación", Toast.LENGTH_SHORT).show();
+                                            txtPublicacion.setText("");
+                                            imgPost.setBackgroundResource(R.drawable.ic_add_box_black_24dp);
                                             getPosts();
                                         }
                                     });
@@ -169,6 +171,8 @@ public class FeedFragment extends Fragment {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
                     Toast.makeText(current.getContext(), "Se realizó la publiación", Toast.LENGTH_SHORT).show();
+                    txtPublicacion.setText("");
+                    imgPost.setBackgroundResource(R.drawable.ic_add_box_black_24dp);
                 }
             });
         }

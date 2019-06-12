@@ -39,9 +39,15 @@ public class ManageInfoActivity extends AppCompatActivity {
                     FirebaseFirestore db = FirebaseFirestore.getInstance();
                     DocumentReference postDocument = db.collection("PersonalData").document();
                     postDocument.set(info);
+                    closePage();
                 }
             }
         });
     }
+
+    private void closePage() {
+        this.finish();
+    }
+
 
 }
