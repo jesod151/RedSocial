@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ImageDetail">
+
+    <ImageView
+        android:id="@+id/imgDislikeDetailImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintStart_toEndOf="@+id/txtDislikeDetailImage"
+        app:srcCompat="@drawable/ic_sentiment_dissatisfied_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imgLikeDetailImage"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintStart_toEndOf="@+id/txtLikesDetailImage"
+        app:srcCompat="@drawable/ic_sentiment_satisfied_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imgDeletePostDetailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="56dp"
+        android:layout_marginBottom="28dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_delete_black_24dp" />
+
+    <ImageView
+        android:id="@+id/imgComentarDetailImage"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginBottom="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txtComentarioDetailImage"
+        app:srcCompat="@drawable/ic_add_box_black_24dp" />
+
+    <TextView
+        android:id="@+id/txtLikesDetailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="44dp"
+        android:layout_marginBottom="32dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgPostDetailImage"
+        android:layout_width="275dp"
+        android:layout_height="270dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="64dp"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:srcCompat="@android:drawable/sym_def_app_icon" />
+
+    <ListView
+        android:id="@+id/listViewCommentsImage"
+        android:layout_width="395dp"
+        android:layout_height="180dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:background="@color/design_default_color_primary"
+        app:layout_constraintBottom_toTopOf="@+id/txtComentarioDetailImage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtComentarioDetailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="76dp"
+        android:layout_marginBottom="16dp"
+        android:ems="10"
+        android:hint="Commentario"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtDislikeDetailImage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/listViewCommentsImage"
+        app:layout_constraintStart_toEndOf="@+id/imgLikeDetailImage" />
+
+    <TextView
+        android:id="@+id/txtSetPerfil"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="128dp"
+        android:layout_marginBottom="20dp"
+        android:text="Usar como foto de perfil"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/imgPostDetailImage"
+        app:layout_constraintStart_toStartOf="parent" />
+</android.support.constraint.ConstraintLayout>

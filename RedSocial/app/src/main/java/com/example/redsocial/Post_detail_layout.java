@@ -177,9 +177,6 @@ public class Post_detail_layout extends AppCompatActivity {
                 }
             }
         });
-
-
-
     }
 
 }

@@ -63,7 +63,7 @@
         android:ems="10"
         android:hint="Contraseña"
         android:inputType="textPersonName|textPassword"
-        android:text="1234567"
+        android:text="jjjjjj"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtCorreo" />
