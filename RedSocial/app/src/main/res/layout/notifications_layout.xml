@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imgUserSearch"
+        android:id="@+id/imgUserNotif"
         android:layout_width="94dp"
         android:layout_height="93dp"
         android:layout_marginStart="16dp"
@@ -16,33 +16,47 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon" />
+        app:srcCompat="@android:drawable/sym_def_app_icon"
+        />
 
     <TextView
-        android:id="@+id/txtUserSearch"
+        android:id="@+id/txtUserNotif"
         android:layout_width="254dp"
         android:layout_height="41dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:text="TextView"
-        android:textColor="@color/colorPrimaryDark"
-        android:textSize="18sp"
+        android:textColor="@color/common_google_signin_btn_text_light_default"
+        android:textSize="14sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toEndOf="@+id/imgUserSearch"
+        app:layout_constraintStart_toEndOf="@+id/imgUserNotif"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/btnAddFriend"
+        android:id="@+id/btnAddFriendNotif"
         android:layout_width="42dp"
         android:layout_height="42dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/add_friend"
+        android:layout_marginEnd="24dp"
+        android:background="@drawable/acept_circle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imgUserSearch"
-        app:layout_constraintTop_toBottomOf="@+id/txtUserSearch"
+        app:layout_constraintEnd_toStartOf="@+id/btnCancelNotif"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserNotif"
         app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnCancelNotif"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="36dp"
+        android:background="@drawable/cancel_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtUserNotif"
+        app:layout_constraintVertical_bias="0.0" />
+
 </android.support.constraint.ConstraintLayout>

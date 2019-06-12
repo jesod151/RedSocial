@@ -38,6 +38,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 import com.example.redsocial.utils.UserPreferences;
 
@@ -192,6 +194,10 @@ public class LogInActivity extends AppCompatActivity {
                             //Path para guardar los usuarios
                             DatabaseReference reference = database.getReference("Users");
                             reference.child(uid).setValue(hashMap);
+
+                            FirebaseFirestore db = FirebaseFirestore.getInstance();
+                            DocumentReference userDocument = db.collection("Users").document();
+                            userDocument.set(hashMap);
                         }
 
 

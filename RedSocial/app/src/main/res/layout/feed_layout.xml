@@ -26,7 +26,6 @@
         android:hint="Qué piensas?"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imgAdd"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
@@ -35,6 +34,7 @@
         android:layout_height="50dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="4dp"
+        app:layout_constraintStart_toEndOf="@id/txtPublicacion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/btnPublicar"
         app:srcCompat="@drawable/ic_add_box_black_24dp" />

@@ -208,19 +208,17 @@ public class RegisterActivity extends AppCompatActivity {
                                                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                                                     DatabaseReference reference = database.getReference("Users");
                                                     reference.child(uid).setValue(hashMap);
+
+                                                    DocumentReference userDocument2 = db.collection("Friends").document();
+                                                    HashMap<String, String> hashMap1 = new HashMap<>();
+                                                    hashMap1.put("friend", user.getEmail());
+                                                    hashMap1.put("user", user.getEmail());
+                                                    userDocument2.set(hashMap1);
+
                                                 }
                                             });
                                         }
                                     });
-
-                            pb.setVisibility(View.INVISIBLE);
-                            FirebaseFirestore db = FirebaseFirestore.getInstance();
-                            DocumentReference userDocument = db.collection("Friends").document();
-                            HashMap<String, String> hashMap1 = new HashMap<>();
-                            hashMap1.put("friend", user.getEmail());
-                            hashMap1.put("user", user.getEmail());
-                            userDocument.set(hashMap1);
-
                             pb.setVisibility(View.INVISIBLE);
                             goMain();
                             finish();
