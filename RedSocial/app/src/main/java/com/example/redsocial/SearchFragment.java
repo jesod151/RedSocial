@@ -87,8 +87,7 @@ public class SearchFragment extends Fragment {
                     ArrayList<User> users = new ArrayList<>();
 
                     for (QueryDocumentSnapshot document : task.getResult()) {
-                        if(document.getString("name").toUpperCase().contains(filter.getText().toString().toUpperCase())
-                                || document.getString("email").toUpperCase().contains(filter.getText().toString().toUpperCase())){
+                        if(document.getString("name").toUpperCase().contains(filter.getText().toString().toUpperCase())){
                             users.add(new User(document.getString("name"),
                                             "",
                                             document.getString("email"),

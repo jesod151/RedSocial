@@ -26,6 +26,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.redsocial.DataBaseObjects.Post;
+import com.example.redsocial.DataBaseObjects.User;
 import com.example.redsocial.utils.RecyclerViewAdapterPost;
 import com.example.redsocial.utils.UserPreferences;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -307,10 +308,8 @@ public class UserFragment extends Fragment {
     }
 
     private void GoFriendList(){
-        FriendListFragment friendlist = new FriendListFragment();
-        friendlist.getActivity();
-
-        Toast.makeText(getActivity(),"Ir a lista de amigos", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), FriendList.class);
+        startActivity(intent);
     }
 
     private void GoInfo(){
@@ -375,6 +374,110 @@ public class UserFragment extends Fragment {
                             return;
                         }
                     }
+                }
+            }
+        });
+    }
+
+    public void getAmigosComun(String emailA, String emailB){
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Friends");
+
+        Query query = collectionReference.whereEqualTo("user", emailA);
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    ArrayList<String> amigosA = new ArrayList();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if(!document.getString("friend").equals(emailA)){
+                            amigosA.add(document.getString("friend"));
+                        }
+                    }
+
+                    Query queryB = collectionReference.whereEqualTo("user", emailB);
+                    queryB.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                ArrayList<String> amigosB = new ArrayList();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    if(!document.getString("friend").equals(emailB)){
+                                        amigosB.add(document.getString("friend"));
+                                    }
+
+                                }
+                                getAmigosEnComun(amigosA, amigosB);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void getAmigosEnComun(ArrayList<String> amigosA, ArrayList<String> amigosB){
+        ArrayList<String> result = new ArrayList<>();
+        for(int i = 0; i < amigosA.size(); i++){
+            for(int j = 0; j < amigosB.size(); j++){
+                if(amigosA.get(i).equals(amigosB.get(j))){
+                    result.add(amigosA.get(i));
+                }
+            }
+        }
+        getAmigosData(result);
+    }
+
+    public void getAmigosData(ArrayList<String> list){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Users");
+        ArrayList<User> result = new ArrayList<>();
+        for(int i = 0; i < list.size(); i++){
+
+            Query query = collectionReference.whereEqualTo("email", list.get(i));
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if(task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            result.add(new User(document.getString("name"),
+                                    "",
+                                    document.getString("email"),
+                                    document.getString("photo")));
+
+                            if(result.size() == list.size()){
+                                amigosEnComunResult(result);
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    public void amigosEnComunResult(ArrayList<User> list){
+        for(int i = 0; i < list.size(); i++){
+            Log.d("taga", "amigo: " + list.get(i).toString());
+        }
+    }
+
+    public void getMisAmigos(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Friends");
+        Query query = collectionReference.whereEqualTo("user", prefs.getEmail());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    ArrayList<String> amigos = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if(!document.getString("friend").equals(prefs.getEmail())){
+                            amigos.add(document.getString("friend"));
+                        }
+                    }
+                    Log.d("taga", "mis amigos son> ");
+                    getAmigosData(amigos);
                 }
             }
         });

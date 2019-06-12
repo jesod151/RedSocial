@@ -1,6 +1,9 @@
 package com.example.redsocial;
 
+import android.app.Dialog;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -92,6 +95,13 @@ public class ImageDetail extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 addComment();
+            }
+        });
+
+        imagen.setOnClickListener(new ImageView.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //show a full screen image
             }
         });
 

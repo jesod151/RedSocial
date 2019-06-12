@@ -89,25 +89,6 @@ public class RecyclerViewAdapterUsers extends RecyclerView.Adapter<RecyclerViewA
         }
     }
 
-    /*private void goPostDetail(Post post){
-        Intent intent = new Intent(context, Post_detail_layout.class);
-        intent.putExtra("userID", post.getUserID());
-        intent.putExtra("texto", post.getTexto());
-        intent.putExtra("likes", post.getLikes());
-        intent.putExtra("imagen", post.getImagenUrl());
-        intent.putExtra("imgUser", post.getImageUrlUser());
-        intent.putExtra("dislikes", post.getDislikes());
-        intent.putExtra("fecha", getDistanciaFecha(post.getFechaCreacion()));
-        intent.putExtra("id", post.getPostID());
-        
-        if(feedFragment != null){
-            feedFragment.startActivityForResult(intent, 2);
-        }
-        else if(searchFragment != null){
-            searchFragment.startActivityForResult(intent, 1);
-        }
-    }*/
-
     public void setUserImageUrl(Post post, ImageView img){
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();

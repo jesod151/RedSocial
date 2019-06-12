@@ -15,7 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme.NoActionBar"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".ImageDetail"></activity>
+        <activity android:name=".FriendList"></activity>
+        <activity android:name=".ImageDetail" />
         <activity android:name=".GaleryActivity" />
         <activity
             android:name=".Post_detail_layout"
