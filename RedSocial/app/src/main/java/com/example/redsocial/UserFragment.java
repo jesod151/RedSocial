@@ -73,12 +73,7 @@ public class UserFragment extends Fragment {
         prefs = new UserPreferences(rootView.getContext());
         String photoUrl = prefs.getPhoto();
 
-        if(!photoUrl.equals("")){
-            Glide.with(rootView.getContext()).load(photoUrl).into(usrPhoto);
-        }
-        else{
-            usrPhoto.setVisibility(View.GONE);
-        }
+        setPhoto();
 
         TextView userNameTv = rootView.findViewById(R.id.txtName);
         userNameTv.setText(prefs.getNombre());
@@ -218,6 +213,26 @@ public class UserFragment extends Fragment {
 
     }
 
+    public void setPhoto(){
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("Users");
+
+        Query query = collectionReference.whereEqualTo("email", prefs.getEmail());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        if(!document.getString("photo").equals("")){
+                            Glide.with(getContext()).load(document.getString("photo")).into(usrPhoto);
+                            return;
+                        }
+                    }
+                }
+            }
+        });
+    }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -237,26 +252,30 @@ public class UserFragment extends Fragment {
     }
 
     private void FillPersonalData(){
-        final ListView lv = rootView.findViewById(R.id.UserInfo);
+        ListView lv = rootView.findViewById(R.id.UserInfo);
 
-        // Aca debe llenarse la lista con lo obtenido desde la BD
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference collectionReference = db.collection("PersonalData");
 
-        List<String> your_array_list = new ArrayList();
-        your_array_list.add("De: San Jose");
-        your_array_list.add("Trabaja en: La Calle");
-        your_array_list.add("Estudios: Fidelitas");
-        your_array_list.add("Habla: Patua");
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter(getActivity(), R.layout.simple_list_item_1, your_array_list);
-
-        lv.setAdapter(arrayAdapter);
-
-
+        Query query = collectionReference.whereEqualTo("userID", prefs.getEmail());
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.isSuccessful()) {
+                    ArrayList<String> data = new ArrayList<>();
+                    for (QueryDocumentSnapshot document : task.getResult()) {
+                        data.add(document.getString("data"));
+                    }
+                    ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), R.layout.simple_list_item_1, data);
+                    lv.setAdapter(arrayAdapter);
+                }
+            }
+        });
     }
 
     private void GoGallery(){
-        //Display Gallery fragment or activity
-        Toast.makeText(getActivity(),"Ir a galeria", Toast.LENGTH_LONG).show();
+        Intent intent = new Intent(getActivity(), GaleryActivity.class);
+        startActivity(intent);
     }
 
     private void GoFriendList(){
@@ -266,7 +285,7 @@ public class UserFragment extends Fragment {
 
     private void GoInfo(){
         Intent intent = new Intent(getActivity(), ManageInfoActivity.class);
-        startActivity(intent);
+        startActivityForResult(intent, 2);
 
         Toast.makeText(getActivity(),"Agregar Info", Toast.LENGTH_LONG).show();
 
@@ -306,6 +325,9 @@ public class UserFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == 1){//posts
             searchForPosts();
+        }
+        else if(requestCode == 2){
+            FillPersonalData();
         }
     }
 
